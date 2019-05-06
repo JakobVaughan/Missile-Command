@@ -84,171 +84,203 @@ void fire(int city)
           
             if (getmouse(&event) == OK)
             {
-              //printw("%d, %d, ", event.x, event.y);
-              //printw("test");
-              x = event.x;
-              y = event.y;
-              //mx = x -41;
-              //my = y-17;
-              basex = 41;
-              basey = 17;
-              //printw("%d, %d ", gx, gy);
-              mvprintw(17, 41, "O");
-              
-              c1 = 0;
-              c2 = 2;
-              //printw("%d, %d", mx, my);
-              decx = x;
-              decy = y; 
-              disty = 17 - decy;
-              distx = 41 - decx;
-              //printw("decx = %f decy = %f", decx, decy);
-              //printw("%d, %f, %d, %f", basex, decx, basey, decy);
-              for (int q = 0; q <6; q ++)
+              if (event.bstate & BUTTON1_CLICKED)
               {
+                //printw("%d, %d, ", event.x, event.y);
+                //printw("test");
+                x = event.x;
+                y = event.y;
+                //mx = x -41;
+                //my = y-17;
+                basex = 41;
+                basey = 17;
+                //printw("%d, %d ", gx, gy);
+                mvprintw(17, 41, "O");
                 
-                usleep(89000);
-                mvprintw((int)basey, (int)basex, " ");   
-                refresh(); 
-                mvprintw((int)basey, (int)basex, "O"); 
-                refresh();
-                //printw("disty = %d distx = %d", disty, distx);
-                //printw("basex = %d, basey = %d", basex, basey);
-                //basex = basex + (0.2 * decx);
-                basey = basey - (0.2 * (double)disty);
-                basex = basex - (0.2 * (double)distx);
-                round(basex);
-                round(basey);     
-                //printw("q = %d", q);
-                //printw("disty = %d distx = %d", disty, distx);
-                 
-                   
-                //printw("basex = %d, basey = %d", basex,  basey);
-               
-                
-              }
-              
-              
-              /*
-              
-              
-              for (int p=0; p<y; p++)
-              {
-                a1 = basex-41;
-                a2 = basey-17;
-                b1 = mx;
-                b2 = -(my);
-                //printw("b1 %d, b2 = %d", b1, b2);
-                grad = (((double)b2 - (double)a2) / ((double)b1 - (double)a1));
-                //printw("grad1 = %f", grad);
-                if (grad >0.5 && grad <1)
-                {
-                  grad = 1;
-                }
-                if (grad >1.5 && grad<2)
-                {
-                  grad = 2;
-                }
-                if (grad >2.5 && grad<3)
-                {
-                  grad = 3;
-                }
-                if (grad <-0.5 && grad >-1)
-                {
-                  grad = -1;
-                }
-                if (grad <-1.5 && grad>-2)
-                {
-                  grad = -2;
-                }
-                if (grad <-2.5 && grad>-3)
-                {
-                  grad = -3;
-                }
-                //printw("grad2 = %f", grad);
-                yint = b2 - (grad * b1);
-                //printw("yint = %f", yint);
-                //printw("grad= %d", grad);
-                setx = (a1-(int)yint) / grad;
-                
-                //printw("setx = %d", setx);
-                sety = (grad * a2) + yint;
-                //printw("sety = %d", sety);
-                //printw("setx = %d, sety = %d", setx, sety);
-                mvprintw(sety+17, setx+41, "O");
-                basey = sety;
-                basex = setx;
-                usleep(170000);
-              }
-              */
-
-              /*
-              while(1)
-              {
-                if (my < 17 || my > -25)
+                c1 = 0;
+                c2 = 2;
+                //printw("%d, %d", mx, my);
+                decx = x;
+                decy = y; 
+                disty = 17 - decy;
+                distx = 41 - decx;
+                //printw("decx = %f decy = %f", decx, decy);
+                //printw("%d, %f, %d, %f", basex, decx, basey, decy);
+                for (int q = 0; q <5; q ++)
                 {
                   
-                  if (mx > (c1-41) && -(my) < mx)
+                  if (decy <= 17)
                   {
-                    basex = basex +3;
-                    basey = basey -1;
-                    c1 = basex;
-                    c2 = basey;
-                    mvprintw(basey, basex, "O");
-                    usleep(220000);
-                    //printw("far right, %d, %d", basex+2, basey-1);
+                    mvprintw((int)basey, (int)basex, " ");  
                     
+                    
+                    //printw("disty = %d distx = %d", disty, distx);
+                    //printw("basex = %d, basey = %d", basex, basey);
+                    //basex = basex + (0.2 * decx);
+                    basey = basey - (0.2 * (double)disty);
+                    basex = basex - (0.2 * (double)distx);
+                    round(basex);
+                    round(basey);  
+                    mvprintw((int)basey, (int)basex, "O"); 
+                    
+                    usleep(89000); 
+                    refresh();   
+                    //printw("q = %d", q);
+                    //printw("disty = %d distx = %d", disty, distx);
+                    
+                      
+                    //printw("basex = %d, basey = %d", basex,  basey);
                   }
-                  else if (mx > (c1-41) && -(my) > mx)
-                  {
-                    //mvprintw(basey-3, basex+1, "O");
-                    basex = basex +1;
-                    basey = basey -3;
-                    c1 = basex;
-                    c2 = basey;
-                    mvprintw(basey, basex, "O");
-                    usleep(220000);
-                    //printw("Right");
-                  }
-                  else if (mx < (c1-41) && mx > my)
-                  {
-                    //mvprintw(basey-3, basex-1, "O");
-                    basex = basex -1;
-                    basey = basey -3;
-                    c1 = basex;
-                    c2 = basey;
-                    mvprintw(basey, basex, "O");
-                    usleep(220000);
-                    //printw("Left");
-                  }
-                  else if (mx < (c1-41) && mx < -(my))
-                  {
-                    //mvprintw(basey-1, basex-3, "O");
-                    basex = basex -3;
-                    basey = basey -1;
-                    c1 = basex;
-                    c2 = basey;
-                    mvprintw(basey, basex, "O");
-                    usleep(220000);
-                    //printw("Far Left");
-                  }
-                  else
-                  {
-                    printw("error");
-                    break;
-                  }
+                
                   
-                  refresh();
                 }
-                //break;
-              }
+                mvprintw((int)basey, (int)basex, " ");
+                
+                for (int r = 0; r<5; r++)
+                {
 
-              */
-              //printw("out fo while loop");
-              //41, 17
-              //printw("mouse has been clicked");
+                  mvprintw(basey-r, (basex), "*");
+                  mvprintw(basey+r, (basex), "*");
+                  mvprintw(basey-r, (basex)-r, "*");
+                  mvprintw(basey, (basex)-r, "*");
+                  mvprintw(basey+r, (basex)-r, "*");
+                  mvprintw(basey+r, (basex)+r, "*");
+                  mvprintw(basey, (basex)+r, "*");
+                  mvprintw(basey-r, (basex)+r, "*");
+                  usleep(170000);
+                  refresh();
+                  mvprintw(basey-r, (basex), " ");
+                  mvprintw(basey+r, (basex), " ");
+                  mvprintw(basey-r, (basex)-r, " ");
+                  mvprintw(basey, (basex)-r, " ");
+                  mvprintw(basey+r, (basex)-r, " ");
+                  mvprintw(basey+r, (basex)+r, " ");
+                  mvprintw(basey, (basex)+r, " ");
+                  mvprintw(basey-r, (basex)+r, " ");
+                  
+                  
+                }
+                
+                /*
                 
                 
+                for (int p=0; p<y; p++)
+                {
+                  a1 = basex-41;
+                  a2 = basey-17;
+                  b1 = mx;
+                  b2 = -(my);
+                  //printw("b1 %d, b2 = %d", b1, b2);
+                  grad = (((double)b2 - (double)a2) / ((double)b1 - (double)a1));
+                  //printw("grad1 = %f", grad);
+                  if (grad >0.5 && grad <1)
+                  {
+                    grad = 1;
+                  }
+                  if (grad >1.5 && grad<2)
+                  {
+                    grad = 2;
+                  }
+                  if (grad >2.5 && grad<3)
+                  {
+                    grad = 3;
+                  }
+                  if (grad <-0.5 && grad >-1)
+                  {
+                    grad = -1;
+                  }
+                  if (grad <-1.5 && grad>-2)
+                  {
+                    grad = -2;
+                  }
+                  if (grad <-2.5 && grad>-3)
+                  {
+                    grad = -3;
+                  }
+                  //printw("grad2 = %f", grad);
+                  yint = b2 - (grad * b1);
+                  //printw("yint = %f", yint);
+                  //printw("grad= %d", grad);
+                  setx = (a1-(int)yint) / grad;
+                  
+                  //printw("setx = %d", setx);
+                  sety = (grad * a2) + yint;
+                  //printw("sety = %d", sety);
+                  //printw("setx = %d, sety = %d", setx, sety);
+                  mvprintw(sety+17, setx+41, "O");
+                  basey = sety;
+                  basex = setx;
+                  usleep(170000);
+                }
+                */
+
+                /*
+                while(1)
+                {
+                  if (my < 17 || my > -25)
+                  {
+                    
+                    if (mx > (c1-41) && -(my) < mx)
+                    {
+                      basex = basex +3;
+                      basey = basey -1;
+                      c1 = basex;
+                      c2 = basey;
+                      mvprintw(basey, basex, "O");
+                      usleep(220000);
+                      //printw("far right, %d, %d", basex+2, basey-1);
+                      
+                    }
+                    else if (mx > (c1-41) && -(my) > mx)
+                    {
+                      //mvprintw(basey-3, basex+1, "O");
+                      basex = basex +1;
+                      basey = basey -3;
+                      c1 = basex;
+                      c2 = basey;
+                      mvprintw(basey, basex, "O");
+                      usleep(220000);
+                      //printw("Right");
+                    }
+                    else if (mx < (c1-41) && mx > my)
+                    {
+                      //mvprintw(basey-3, basex-1, "O");
+                      basex = basex -1;
+                      basey = basey -3;
+                      c1 = basex;
+                      c2 = basey;
+                      mvprintw(basey, basex, "O");
+                      usleep(220000);
+                      //printw("Left");
+                    }
+                    else if (mx < (c1-41) && mx < -(my))
+                    {
+                      //mvprintw(basey-1, basex-3, "O");
+                      basex = basex -3;
+                      basey = basey -1;
+                      c1 = basex;
+                      c2 = basey;
+                      mvprintw(basey, basex, "O");
+                      usleep(220000);
+                      //printw("Far Left");
+                    }
+                    else
+                    {
+                      printw("error");
+                      break;
+                    }
+                    
+                    refresh();
+                  }
+                  //break;
+                }
+
+                */
+                //printw("out fo while loop");
+                //41, 17
+                //printw("mouse has been clicked");
+                  
+              }     
             }
             
         }
