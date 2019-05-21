@@ -20,11 +20,30 @@ void armageddon(int x, int y, int m)
   mvprintw(x - m, (y - 1) + m, "*");
 }
 
-bool inRange(int usrx, int usry, int missx, int missy)
+bool interception(int attacky, int attackx, int defencex, int defencey)
 {
   for (int i = -6; i < 6; i++)
   {
     for (int j = -6; j < 6; j++)
+    {
+      if(defencey-4 < attacky && defencex+4 > attackx && defencey+4 > attacky && defencex-4 < attackx)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+      
+    }
+  }
+}
+
+bool inRange(int usrx, int usry, int missx, int missy)
+{
+  for (int i = -5; i < 5; i++)
+  {
+    for (int j = -5; j < 5; j++)
     {
       if ((usrx == missx && usry == missy) || (usrx + i == missx + i || usry + j == missy + j || usrx - i == missx + i || usry - j == missy + j || usrx + i == missx - i || usry + j == missy - j))
       {
@@ -46,6 +65,7 @@ void fire()
   int c;
   double grad, decx, decy, basex, basey;
   double yint;
+  int citiesRemaining = 6;
   int a1, a2, b1, b2, g;
   int eq, rgrad;
   double quater;
@@ -53,7 +73,7 @@ void fire()
   int setx;
   int sety;
   int city;
-  ;
+  int disappear = 0;
   MEVENT event;
   int targets[5];
   targets[0] = 11;
@@ -65,10 +85,10 @@ void fire()
   bool exp = true;
   bool explode = false;
   bool retaliate = false;
-
+  bool isDestroyed = false;
   getmaxyx(stdscr, maxrow, maxcol);
   int k = 0, m = 0, q = 0, r = 0;
-  while (1)
+  while (citiesRemaining>0)
   {
     k = 0;
     m = 0;
@@ -76,6 +96,7 @@ void fire()
     city = rand() % 6;
 
     retaliate = false;
+    isDestroyed = false;
     //mvprintw(6, 0,"reset k");
 
     //while (k<maxrow-2)
@@ -83,7 +104,7 @@ void fire()
 
     while (k < maxrow - 2)
     {
-
+      
       //usleep(170000);
       //refresh();
 
@@ -92,7 +113,8 @@ void fire()
 
         if (m < 3)
         {
-          armageddon(maxrow-k, targets[city], m);
+          //printw("cities: %d", city);
+          
           mvprintw(maxrow-k, targets[city], "");
           getyx(stdscr, row, col);
           //printw("row: %d col = %d", row, col);
@@ -179,45 +201,87 @@ void fire()
 
             if ((inRange) && r < 4)
             {
-
+              
               //mvprintw(8, 0, "suOBNDGJAKBNGp");
               //printw("r = %d", r);
-              mvprintw(basey - r, (basex), "*");
-              mvprintw(basey + r, (basex), "*");
-              mvprintw(basey - r, (basex)-r, "*");
-              mvprintw(basey, (basex)-r, "*");
-              mvprintw(basey + r, (basex)-r, "*");
-              mvprintw(basey + r, (basex) + r, "*");
-              mvprintw(basey, (basex) + r, "*");
-              mvprintw(basey - r, (basex) + r, "*");
+              
+                mvprintw(basey - r, (basex), "*");
+                mvprintw(basey + r, (basex), "*");
+                mvprintw(basey - r, (basex)-r, "*"); //tl
+                mvprintw(basey, (basex)-r, "*");
+                mvprintw(basey + r, (basex)-r, "*"); //tr
+                mvprintw(basey + r, (basex) + r, "*"); //br
+                mvprintw(basey, (basex) + r, "*");
+                mvprintw(basey - r, (basex) + r, "*"); //bl
 
-              /*
-                                                            mvprintw(basey-r, (basex), " ");
-                                                            mvprintw(basey+r, (basex), " ");
-                                                            mvprintw(basey-r, (basex)-r, " ");
-                                                            mvprintw(basey, (basex)-r, " ");
-                                                            mvprintw(basey+r, (basex)-r, " ");
-                                                            mvprintw(basey+r, (basex)+r, " ");
-                                                            mvprintw(basey, (basex)+r, " ");
-                                                            mvprintw(basey-r, (basex)+r, " ");
-                                                            */
-              r++;
+                
+                refresh();
+                usleep(110000);
+                
+                mvprintw(basey-r, (basex), " ");
+                mvprintw(basey+r, (basex), " ");
+                mvprintw(basey-r, (basex)-r, " ");
+                mvprintw(basey, (basex)-r, " ");
+                mvprintw(basey+r, (basex)-r, " ");
+                mvprintw(basey+r, (basex)+r, " ");
+                mvprintw(basey, (basex)+r, " ");
+                mvprintw(basey-r, (basex)+r, " ");
+                if (r==3)
+                {
+                    if (interception(k-2, targets[city], basex, basey))
+                    {
+                      mvprintw(k-1, targets[city], " ");
+                      isDestroyed = true;
+                      break;
+                    }
+                }
+
+              
+                r++;
+                /*
+                if (interception(k-2, targets[city], (int)basex, (int)basey) && disappear == 1 && (int)basex != 0 && (int)basey != 0)
+                {
+                  printw("%d = %d, %d = %d", k-2, targets[city], basex, basey);
+                  printw("YEEEEETTTT");
+                  
+                }
+                else
+                {
+                  //printw("%d = %d, %d = %d", k-2, basex, targets[city], basey);
+                  //printw("NOOOO");
+                }
+                */
+                
             }
           }
         }
 
         //mvprintw((int)basey, (int)basex, " ");
       }
-
+      
       k++;
       //r++;
       //printw("k = %d", k);
+      disappear = 1;
       refresh();
-      usleep(170000);
+      usleep(130000);
+     
     }
-    printw("EXITED");
+  if (!isDestroyed)
+  {
+    for (int p=0; p<3; p++)
+    {
+      armageddon(k, targets[city], p);
+      
+      
+    }
+    
+    citiesRemaining--;
+    mvprintw(8, 0, "cities: %d", citiesRemaining);
+  
+    //printw("EXITED");
     explode = true;
-
+  }
     //printw("breaking!");
   }
 }
